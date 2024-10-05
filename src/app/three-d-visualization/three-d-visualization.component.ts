@@ -15,7 +15,12 @@ export class ThreeDVisualizationComponent implements OnInit {
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
   private comet!: THREE.Mesh;
-  
+  private earth!: THREE.Object3D; // Para almacenar el modelo de la Tierra
+  private raycaster = new THREE.Raycaster(); // Raycaster para detección de clics
+  private mouse = new THREE.Vector2(); // Vector para almacenar la posición del ratón
+  public showInfo: boolean = false; // Controlar la visibilidad de la tabla
+  public info: string = ''; // Almacenar la información
+
   constructor() { }
 
   ngOnInit(): void {
@@ -39,7 +44,7 @@ export class ThreeDVisualizationComponent implements OnInit {
     document.body.appendChild(this.renderer.domElement);
 
     // Añadir una luz ambiental
-    const ambientLight = new THREE.AmbientLight(0x404040, 15); // Aumentar la intensidad de la luz ambiental
+    const ambientLight = new THREE.AmbientLight(0x404040, 3); // Aumentar la intensidad de la luz ambiental
     this.scene.add(ambientLight);
 
     // Añadir luz direccional
@@ -50,12 +55,12 @@ export class ThreeDVisualizationComponent implements OnInit {
     // Cargar el modelo de la Tierra
     const loader = new GLTFLoader();
     loader.load('assets/earth.glb', (gltf) => {
-      const earth = gltf.scene;
+      this.earth = gltf.scene; // Guardar el modelo de la Tierra
 
       // Escalar el modelo a la mitad de su tamaño
-      earth.scale.set(0.1, 0.1, 0.1); 
+      this.earth.scale.set(0.1, 0.1, 0.1); 
       
-      this.scene.add(earth);
+      this.scene.add(this.earth);
 
       // Configurar la posición de la cámara
       this.camera.position.z = 10;
@@ -95,6 +100,41 @@ export class ThreeDVisualizationComponent implements OnInit {
     const cometMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // Rojo para el cometa
     this.comet = new THREE.Mesh(cometGeometry, cometMaterial);
     this.scene.add(this.comet);
+
+    // Agregar evento de clic
+    window.addEventListener('click', (event) => this.onClick(event));
+  }
+
+  onClick(event: MouseEvent): void {
+    // Calcular las coordenadas normalizadas del mouse
+    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+    // Actualizar el raycaster con la posición del mouse y la cámara
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+
+    // Comprobar la intersección con todos los objetos en la escena, incluyendo los hijos
+    const intersects = this.raycaster.intersectObjects(this.scene.children, true);
+
+    // Verificar si alguno de los objetos intersectados es parte del modelo de la Tierra
+    const earthIntersected = intersects.some(intersect => {
+      let object: THREE.Object3D | null = intersect.object;
+      while (object) {
+        if (object === this.earth) {
+          return true;
+        }
+        object = object.parent;
+      }
+      return false;
+    });
+
+    if (earthIntersected) {
+      // Mostrar información de la Tierra en un alert
+      alert('Información sobre la Tierra:\n' +
+            'Diámetro: 12,742 km\n' +
+            'Población: 7.9 mil millones\n' +
+            'Tiempo de rotación: 24 horas');
+    }
   }
 
   animate(): void {
