@@ -1,0 +1,10 @@
+<div class="header">
+  <h2>Controles de Resultados</h2>
+  <p-slider [(ngModel)]="resultsLimit"
+             (ngModelChange)="onSliderChange($event)"
+             [min]="1"
+             [max]="160"
+             [step]="1" ></p-slider>
+
+  <p>Resultados a mostrar: {{ resultsLimit }}</p>
+</div>

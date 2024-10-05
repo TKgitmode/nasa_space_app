@@ -10,12 +10,12 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
   styleUrls: ['./three-d-visualization.component.css']
 })
 export class ThreeDVisualizationComponent implements OnInit {
-  
+
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
   private comet!: THREE.Mesh;
-  
+
   constructor() { }
 
   ngOnInit(): void {
@@ -39,22 +39,14 @@ export class ThreeDVisualizationComponent implements OnInit {
     document.body.appendChild(this.renderer.domElement);
 
     // Añadir una luz ambiental
-    const ambientLight = new THREE.AmbientLight(0x404040, 15); // Aumentar la intensidad de la luz ambiental
+    const ambientLight = new THREE.AmbientLight(0x404040, 2); // Luz blanca suave
     this.scene.add(ambientLight);
-
-    // Añadir luz direccional
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Luz blanca
-    directionalLight.position.set(5, 5, 5).normalize(); // Posición de la luz
-    this.scene.add(directionalLight);
 
     // Cargar el modelo de la Tierra
     const loader = new GLTFLoader();
     loader.load('assets/earth.glb', (gltf) => {
       const earth = gltf.scene;
-
-      // Escalar el modelo a la mitad de su tamaño
-      earth.scale.set(0.1, 0.1, 0.1); 
-      
+      earth.scale.set(1, 1, 1); // Ajustar el tamaño si es necesario
       this.scene.add(earth);
 
       // Configurar la posición de la cámara
@@ -103,11 +95,11 @@ export class ThreeDVisualizationComponent implements OnInit {
     // Mover el cometa a lo largo de la curva
     const t = (performance.now() * 0.001) % (Math.PI * 2); // Normalizar el tiempo
     const cometPos = new THREE.EllipseCurve(
-      0, 0, 
-      0.986192006 * (1 - 0.682526943), 
-      0.986192006, 
-      0, 2 * Math.PI, 
-      false, 
+      0, 0,
+      0.986192006 * (1 - 0.682526943),
+      0.986192006,
+      0, 2 * Math.PI,
+      false,
       0
     ).getPoint(t);
     this.comet.position.set(cometPos.x, cometPos.y, 0);

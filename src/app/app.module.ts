@@ -1,11 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
+import { FormsModule } from '@angular/forms';
+import { SliderModule } from 'primeng/slider';
 
 import { AppComponent } from './app.component';
 
 import { NasaService } from './nasa.service';
-//import { EarthComponent } from './earth/earth.component';
+import { HeaderComponent } from './header/header.component'
 
 import { ThreeDVisualizationComponent } from './three-d-visualization/three-d-visualization.component';
 
@@ -13,11 +15,15 @@ import { ThreeDVisualizationComponent } from './three-d-visualization/three-d-vi
 @NgModule({
   declarations: [
     AppComponent,
-    ThreeDVisualizationComponent
+    ThreeDVisualizationComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule // Añade HttpClientModule a la lista de imports
+    HttpClientModule,
+    SliderModule,
+    FormsModule
+
   ],
   providers: [NasaService],
   bootstrap: [AppComponent]

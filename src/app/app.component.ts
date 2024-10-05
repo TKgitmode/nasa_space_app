@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NasaService } from './nasa.service';
-import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -9,19 +8,27 @@ import { OnInit } from '@angular/core';
 })
 
 export class AppComponent implements OnInit {
-  data: any[] = [];
+  data: any[] = []; // Array para almacenar los datos
 
   constructor(private nasaService: NasaService) { }
 
   ngOnInit(): void {
-    this.nasaService.getData().subscribe(
+    this.loadData(5); // Carga inicial con 5 resultados
+  }
+
+  loadData(limit: number): void {
+    this.nasaService.getData(limit).subscribe(
       (response) => {
-        this.data = response;
-        console.log(this.data);
+        this.data = response; // Almacena los datos en el array
+        console.log(this.data); // Muestra los datos en la consola
       },
       (error) => {
-        console.error('Error al obtener datos de la API', error);
+        console.error('Error al obtener datos:', error); // Manejo de errores
       }
     );
+  }
+
+  onResultsLimitChange(newLimit: number): void {
+    this.loadData(newLimit); // Cargar datos con el nuevo límite
   }
 }
