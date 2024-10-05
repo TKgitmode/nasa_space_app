@@ -22,6 +22,7 @@
     "primeng": "^17.18.11",
     "rxjs": "~7.8.0",
     "three": "^0.169.0",
+    "three-orbitcontrols": "^2.110.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
