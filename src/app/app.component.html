@@ -1,9 +1,2 @@
 <app-header (resultsLimitChange)="onResultsLimitChange($event)"></app-header>
-<app-three-d-visualization></app-three-d-visualization>
-
-<div *ngFor="let item of data">
-  <h3>{{ item.object_name }}</h3>
-  <p>Excentricidad: {{ item.e }}</p>
-  <p>Inclinación: {{ item.i_deg }} grados</p>
-  <p>Período orbital: {{ item.p_yr }} años</p>
-</div>
+<app-three-d-visualization [data]="data"></app-three-d-visualization>

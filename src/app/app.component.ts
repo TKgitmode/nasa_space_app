@@ -8,7 +8,7 @@ import { NasaService } from './nasa.service';
 })
 
 export class AppComponent implements OnInit {
-  data: any[] = []; // Array para almacenar los datos
+  data: any[] = [];
 
   constructor(private nasaService: NasaService) { }
 
@@ -19,16 +19,16 @@ export class AppComponent implements OnInit {
   loadData(limit: number): void {
     this.nasaService.getData(limit).subscribe(
       (response) => {
-        this.data = response; // Almacena los datos en el array
-        console.log(this.data); // Muestra los datos en la consola
+        this.data = response;
+        console.log(this.data);
       },
       (error) => {
-        console.error('Error al obtener datos:', error); // Manejo de errores
+        console.error('Error al obtener datos:', error);
       }
     );
   }
 
   onResultsLimitChange(newLimit: number): void {
-    this.loadData(newLimit); // Cargar datos con el nuevo límite
+    this.loadData(newLimit);
   }
 }
