@@ -8,9 +8,14 @@ import { Component, Output, EventEmitter } from '@angular/core';
 export class HeaderComponent {
   @Output() resultsLimitChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() animationStateChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() showStateChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() showState2Change: EventEmitter<string> = new EventEmitter<string>();
+
 
   resultsLimit: number = 5;
-  animationState: boolean = true;
+  animationState: boolean = true; // true representa 'play', false representa 'pause'
+  showState: boolean = true; // true representa 'play', false representa 'pause'
+  show2State: boolean = true; // true representa 'play', false representa 'pause'
 
   onResultsLimitChange(event: any): void {
     this.resultsLimitChange.emit(this.resultsLimit);
@@ -18,6 +23,16 @@ export class HeaderComponent {
 
   onAnimationStateChange(event: any): void {
     const state = event.checked ? 'play' : 'pause';
+    this.animationStateChange.emit(state);
+  }
+  
+  onShowStateChange(event: any): void {
+    const state = event.checked ? 'show' : 'hide';
+    this.animationStateChange.emit(state);
+  }
+
+  onShowState2Change(event: any): void {
+    const state = event.checked ? 'show' : 'hide';
     this.animationStateChange.emit(state);
   }
 }

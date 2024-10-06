@@ -15,8 +15,26 @@
     <label>Control de animación:</label>
     <p-toggleButton [(ngModel)]="animationState"
                     (onChange)="onAnimationStateChange($event)"
-                    onLabel="Reanudar"
-                    offLabel="Pausar">
+                    onLabel="Play"
+                    offLabel="Pause">
+    </p-toggleButton>
+  </div>
+
+  <div class="animation-control">
+    <label>Control de Órbita:</label>
+    <p-toggleButton [(ngModel)]="showState"
+                    (onChange)="onShowStateChange($event)"
+                    onLabel="Show"
+                    offLabel="Hide">
+    </p-toggleButton>
+  </div>
+  
+  <div class="animation-control">
+    <label>Control de Nombres:</label>
+    <p-toggleButton [(ngModel)]="show2State"
+                    (onChange)="onShowStateChange($event)"
+                    onLabel="Show"
+                    offLabel="Hide">
     </p-toggleButton>
   </div>
 </div>
