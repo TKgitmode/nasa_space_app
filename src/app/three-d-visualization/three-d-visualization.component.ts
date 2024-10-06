@@ -13,7 +13,12 @@ import { NasaObject } from '../interfaces/NasaObject.interface';
 })
 export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
   @Input() data: NasaObject[] = [];
-  @Input() animationSpeed: number = 1;
+  @Input() animationStatus: string = 'play';
+
+  animationSpeed: number = this.animationStatus == 'play' ? 1 : 0;
+
+  private elapsedTime: number = 0;
+  private lastTime: number = 0;
 
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
@@ -32,12 +37,17 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.createScene();
     this.loadAsteroidModel();
+
+    this.lastTime = Date.now();
     this.animate();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data'] && !changes['data'].firstChange && this.asteroidModel) {
       this.updateComets();
+    }
+    if (changes['animationStatus']) {
+      this.updateAnimationSpeed();
     }
   }
 
@@ -48,6 +58,12 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
     // Limpiar la escena y liberar recursos
     this.scene.clear();
     this.renderer.dispose();
+  }
+
+  updateAnimationSpeed(): void {
+    this.animationSpeed = this.animationStatus === 'play' ? 1 : 0;
+    // Ajustar `lastTime` para el cálculo correcto del tiempo pausado
+    this.lastTime = Date.now();
   }
 
   createScene(): void {
@@ -98,6 +114,7 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
       console.error('Error loading asteroid model:', error);
     });
   }
+
   updateComets(): void {
     // Eliminar cometas existentes
     this.comets.forEach(comet => {
@@ -117,28 +134,44 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
     const node = THREE.MathUtils.degToRad(parseFloat(cometData.node_deg));
     const period = parseFloat(cometData.p_yr);
 
+    // Crear la curva orbital del cometa (elipse)
     const curve = new THREE.EllipseCurve(
-      0, 0,
-      a, a * Math.sqrt(1 - e * e),
-      0, 2 * Math.PI,
-      false,
-      0
+      0, 0, // Centro
+      a, a * Math.sqrt(1 - e * e), // Radios de la elipse
+      0, 2 * Math.PI, // Rango de ángulos
+      false, 0
     );
 
+    // Crear la geometría de la órbita
     const points = curve.getPoints(100);
     const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points);
     const orbitMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true });
     const orbit = new THREE.Line(orbitGeometry, orbitMaterial);
 
+    // Aplicar rotación de la órbita
     orbit.rotation.x = incl;
     orbit.rotation.z = node;
 
+    // Crear el modelo 3D del cometa clonando el asteroide cargado
     const cometObject = this.asteroidModel.clone();
     cometObject.scale.multiplyScalar(0.05 + Math.random() * 0.05);
 
+    // Posición inicial aleatoria a lo largo de la curva
+    const initialT = Math.random();
+    const position = curve.getPoint(initialT);
+    cometObject.position.set(position.x, position.y, 0);
+
+    // Aplicar la rotación de la órbita al objeto
+    cometObject.position.applyEuler(orbit.rotation);
+
+    // Asignar una rotación inicial aleatoria en su propio eje
+    cometObject.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+
+    // Añadir la órbita y el cometa a la escena
     this.scene.add(orbit);
     this.scene.add(cometObject);
 
+    // Guardar los datos del cometa
     this.comets.push({
       object: cometObject,
       orbit: orbit,
@@ -148,20 +181,27 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
     });
   }
 
+
   animate(): void {
     this.animationFrameId = requestAnimationFrame(() => this.animate());
+
+    const currentTime = Date.now();
+
+    // Actualizar el tiempo solo si la animación está en estado de "play"
+    if (this.animationStatus === 'play') {
+      this.elapsedTime += (currentTime - this.lastTime) * 0.00001; // Incrementar el tiempo acumulado
+    }
+
+    this.lastTime = currentTime; // Actualizar `lastTime` a cada frame
 
     if (this.earth) {
       // Acelerar la rotación de la tierra con animationSpeed
       this.earth.rotation.y += 0.001 * this.animationSpeed;
     }
 
-    // Calcular el tiempo con la velocidad de animación aplicada
-    const time = Date.now() * 0.00001 * this.animationSpeed;
-
     this.comets.forEach((comet) => {
-      // Modificar el parámetro 't' usando la variable de velocidad
-      const t = (time / comet.period) % 1;
+      // Usar `elapsedTime` en lugar de `Date.now()` para el cálculo del tiempo de traslación
+      const t = (this.elapsedTime / comet.period) % 1;
 
       // Obtener la nueva posición del cometa a lo largo de la curva
       const position = comet.curve.getPoint(t);

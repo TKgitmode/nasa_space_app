@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
 import { FormsModule } from '@angular/forms';
 import { SliderModule } from 'primeng/slider';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 import { AppComponent } from './app.component';
 
@@ -22,6 +23,7 @@ import { ThreeDVisualizationComponent } from './three-d-visualization/three-d-vi
     BrowserModule,
     HttpClientModule,
     SliderModule,
+    SelectButtonModule,
     FormsModule
 
   ],

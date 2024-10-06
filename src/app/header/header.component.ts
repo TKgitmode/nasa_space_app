@@ -7,15 +7,21 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class HeaderComponent {
   @Output() resultsLimitChange: EventEmitter<number> = new EventEmitter<number>();
-  @Output() animationSpeedChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() animationStateChange: EventEmitter<string> = new EventEmitter<string>();
+
   resultsLimit: number = 5;
-  animationSpeed: number = 1;
+  animationState: string = 'play';
+
+  animationOptions: any[] = [
+    { label: 'Pausar', value: 'pause', icon: 'pi pi-pause' },
+    { label: 'Reanudar', value: 'play', icon: 'pi pi-play' }
+  ];
 
   onResultsLimitChange(event: any): void {
     this.resultsLimitChange.emit(this.resultsLimit);
   }
 
-  onAnimationSpeedChange(event: any): void {
-    this.animationSpeedChange.emit(this.animationSpeed);
+  onAnimationStateChange(state: string): void {
+    this.animationStateChange.emit(state);
   }
 }

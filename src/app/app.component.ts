@@ -10,7 +10,7 @@ import { NasaService } from './nasa.service';
 export class AppComponent implements OnInit {
   data: any[] = [];
   resultsLimit: number = 5;
-  animationSpeed: number = 1;
+  animationState: string = 'play';
 
   constructor(private nasaService: NasaService) { }
 
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
     this.loadData();
   }
 
-  onAnimationSpeedChange(newSpeed: number): void {
-    this.animationSpeed = newSpeed;
+  onAnimationStateChange(newState: string): void {
+    this.animationState = newState;
   }
 }

@@ -11,14 +11,15 @@
     <span>{{ resultsLimit }}</span>
   </div>
 
-  <div class="slider-container">
-    <label for="speed-slider">Velocidad de animación:</label>
-    <p-slider [(ngModel)]="animationSpeed"
-              (ngModelChange)="onAnimationSpeedChange($event)"
-              [min]="0"
-              [max]="5"
-              [step]="0.1"
-              id="speed-slider"></p-slider>
-    <span>{{ animationSpeed === 0 ? 'Pausado' : animationSpeed.toFixed(1) + 'x' }}</span>
+  <div class="animation-control">
+    <label>Control de animación:</label>
+    <p-selectButton [options]="animationOptions"
+                    [(ngModel)]="animationState"
+                    (ngModelChange)="onAnimationStateChange($event)">
+      <ng-template let-option pTemplate="item">
+        <i [class]="option.icon"></i>
+        {{ option.label }}
+      </ng-template>
+    </p-selectButton>
   </div>
 </div>
