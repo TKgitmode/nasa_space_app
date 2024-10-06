@@ -149,7 +149,7 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
 
     // Crear el modelo 3D del cometa clonando el asteroide cargado
     const cometObject = this.asteroidModel.clone();
-    cometObject.scale.multiplyScalar(0.01 + Math.random() * 0.05);
+    cometObject.scale.multiplyScalar(0.01 + Math.random() * 0.01);
 
     // Posición inicial aleatoria a lo largo de la curva
     const totalComets = this.data.length;
