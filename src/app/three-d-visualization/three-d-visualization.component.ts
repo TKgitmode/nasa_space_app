@@ -82,7 +82,7 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId);
     }
-    this.removeAllOrbits(); // Elimina las órbitas cuando el componente se destruye
+    this.removeAllOrbits();
     this.scene.clear();
     this.renderer.dispose();
   }
@@ -95,14 +95,12 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
   updateName(): void {
     if (this.nameStatus === 'show') {
       this.comets.forEach(comet => {
-        // Si la etiqueta no está ya en la escena, añádela
         if (!comet.nameLabel.parent) {
           this.scene.add(comet.nameLabel);
         }
       });
     } else {
       this.comets.forEach(comet => {
-        // Si la etiqueta está en la escena, quítala
         if (comet.nameLabel.parent) {
           this.scene.remove(comet.nameLabel);
         }
@@ -122,31 +120,27 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
       });
     }
   }
-  
+
   recreateAllOrbits(): void {
     if (this.orbitStatus === 'show') {
-      this.removeAllOrbits();  // Elimina solo las órbitas actuales.
-      this.createOrbits();     // Recrea solo las órbitas.
+      this.removeAllOrbits();
+      this.createOrbits();
     }
   }
 
   createOrbits(): void {
     this.comets.forEach(comet => {
-      // Crear la curva orbital del cometa (elipse)
       const curve = comet.curve;
-  
+
       const points = curve.getPoints(100);
       const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points);
       const orbitMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true });
       const orbit = new THREE.Line(orbitGeometry, orbitMaterial);
-  
-      // Aplicar la rotación de la órbita
+
       orbit.rotation.copy(comet.orbit.rotation);
-  
-      // Añadir la órbita a la escena
+
       this.scene.add(orbit);
-  
-      // Actualizar la órbita en el cometa existente
+
       comet.orbit = orbit;
     });
   }
@@ -192,7 +186,7 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
     loader.load(randomAsteroidFile, (gltf) => {
       this.asteroidModel = gltf.scene;
       this.asteroidModel.scale.set(1, 1, 1);
-      this.updateComets(); // Actualizar los cometas con el nuevo modelo
+      this.updateComets();
     }, undefined, (error) => {
       console.error('Error loading asteroid model:', error);
     });
@@ -211,34 +205,29 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
 
   createComet(cometData: NasaObject, index: number): void {
     const e = parseFloat(cometData.e);
-    const a = parseFloat(cometData.q_au_1) / (1 - e); // Semi-eje mayor
+    const a = parseFloat(cometData.q_au_1) / (1 - e);
     const incl = THREE.MathUtils.degToRad(parseFloat(cometData.i_deg));
     const node = THREE.MathUtils.degToRad(parseFloat(cometData.node_deg));
     const period = parseFloat(cometData.p_yr);
 
-    // Crear la curva orbital del cometa (elipse)
     const curve = new THREE.EllipseCurve(
         0, 0, // Centro
-        a, a * Math.sqrt(1 - e * e), // Radios de la elipse
-        0, 2 * Math.PI, // Rango de ángulos
+        a, a * Math.sqrt(1 - e * e),
+        0, 2 * Math.PI,
         false, 0
     );
 
-    // Crear y almacenar la órbita
     const points = curve.getPoints(100);
     const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points);
     const orbitMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true });
     const orbit = new THREE.Line(orbitGeometry, orbitMaterial);
 
-    // Aplicar rotación de la órbita
     orbit.rotation.x = incl;
     orbit.rotation.z = node;
 
-    // Crear el modelo 3D del cometa clonando el asteroide cargado
     const cometObject = this.asteroidModel.clone();
     cometObject.scale.multiplyScalar(0.01 + Math.random() * 0.01);
 
-    // Posición inicial aleatoria a lo largo de la curva
     const totalComets = this.data.length;
     const basePosition = index / totalComets;
     const randomOffset = Math.random();
@@ -246,126 +235,121 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
     const position = curve.getPoint(initialT);
     cometObject.position.set(position.x, position.y, 0);
 
-    // Aplicar la rotación de la órbita al objeto
     cometObject.position.applyEuler(orbit.rotation);
 
-    // Asignar una rotación inicial aleatoria en su propio eje
     cometObject.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
 
-    // Crear y añadir la etiqueta de texto
     const nameLabel = this.createTextLabel(cometData.object, 10);
-    nameLabel.position.set(position.x, position.y, 0); // Coloca la etiqueta sobre el cometa
+    nameLabel.position.set(position.x, position.y, 0);
     this.scene.add(nameLabel);
 
-    // Añadir la órbita y el cometa a la escena
     this.scene.add(orbit);
     this.scene.add(cometObject);
 
-    // Guardar los datos del cometa
     this.comets.push({
         object: cometObject,
         orbit: orbit,
         curve: curve,
         period: period,
         name: cometData.object,
-        initialT: initialT,  // Guardar la posición inicial para referencia futura
-        nameLabel: nameLabel // Agregar la etiqueta de texto para futuras actualizaciones
+        initialT: initialT,
+        nameLabel: nameLabel
     });
-  } 
+  }
 
   createTextLabel(text: string, fontSize: number): THREE.Sprite {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d')!;
-    
+
     const textWidth = context.measureText(text).width;
     canvas.width = textWidth;
-    canvas.height = fontSize * 1.2; // Ajusta la altura del canvas para que sea un poco más alto que el texto
+    canvas.height = fontSize * 1.2;
 
     context.font = `${fontSize}px Arial`;
     context.fillStyle = 'white';
-    context.fillText(text, 0, fontSize); // Dibuja el texto en el canvas
+    context.fillText(text, 0, fontSize);
 
     const texture = new THREE.CanvasTexture(canvas);
-    
-    // Crear el material del sprite con transparencia
-    const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true, opacity: 1 }); // Ajusta la opacidad según sea necesario
+
+    const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true, opacity: 1 });
     const sprite = new THREE.Sprite(spriteMaterial);
 
-    // Ajusta la escala del sprite
-    sprite.scale.set(0.6, 0.15, 1); // Cambia los valores para ajustar el ancho y la altura del sprite según tus necesidades
+    sprite.scale.set(0.6, 0.15, 1);
 
     return sprite;
-}
-
-animate(): void {
-  this.animationFrameId = requestAnimationFrame(() => this.animate());
-
-  const currentTime = Date.now();
-
-  if (this.animationStatus === 'play') {
-      this.elapsedTime += (currentTime - this.lastTime) * 0.00001;
   }
 
-  this.lastTime = currentTime;
+  animate(): void {
+    this.animationFrameId = requestAnimationFrame(() => this.animate());
 
-  if (this.earth) {
-      this.earth.rotation.y += 0.001 * this.animationSpeed;
+    const currentTime = Date.now();
+
+    if (this.animationStatus === 'play') {
+        this.elapsedTime += (currentTime - this.lastTime) * 0.00001;
+    }
+
+    this.lastTime = currentTime;
+
+    if (this.earth) {
+        this.earth.rotation.y += 0.001 * this.animationSpeed;
+    }
+
+    this.comets.forEach((comet) => {
+        const t = (this.elapsedTime / comet.period + comet.initialT) % 1;
+        const position = comet.curve.getPoint(t);
+
+        comet.object.position.set(position.x, position.y, 0);
+        comet.object.position.applyEuler(comet.orbit.rotation);
+
+        comet.object.rotation.y += 0.01 * this.animationSpeed;
+
+        // Update the position of the name label
+        const labelOffset = new THREE.Vector3(0.01, 0, 0.5); // Offset to position label next to the comet
+        comet.nameLabel.position.copy(comet.object.position).add(labelOffset);
+
+        // Make the label face the camera
+        comet.nameLabel.lookAt(this.camera.position);
+    });
+
+    this.renderer.render(this.scene, this.camera);
   }
 
-  this.comets.forEach((comet) => {
-      const t = (this.elapsedTime / comet.period + comet.initialT) % 1;
-      const position = comet.curve.getPoint(t);
-
-      comet.object.position.set(position.x, position.y, 0);
-      comet.object.position.applyEuler(comet.orbit.rotation);
-
-      comet.object.rotation.y += 0.01 * this.animationSpeed;
-
-      // Update the position of the name label
-      const labelOffset = new THREE.Vector3(0.01, 0, 0.5); // Offset to position label next to the comet
-      comet.nameLabel.position.copy(comet.object.position).add(labelOffset);
-      
-      // Make the label face the camera
-      comet.nameLabel.lookAt(this.camera.position);
-  });
-
-  this.renderer.render(this.scene, this.camera);
-}
-
-  onClick(event: MouseEvent): void {  // Obtener el rectángulo del canvas
+  onClick(event: MouseEvent): void {
     const rect = this.renderer.domElement.getBoundingClientRect();
 
-    // Calcular las coordenadas del mouse relativas al canvas
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    // Normalizar las coordenadas del mouse
     this.mouse.x = (x / rect.width) * 2 - 1;
     this.mouse.y = - (y / rect.height) * 2 + 1;
 
-    // Actualizar el raycaster
     this.raycaster.setFromCamera(this.mouse, this.camera);
 
-    // Crear un array con todos los objetos de cometas
     const cometObjects = this.comets.map(comet => comet.object);
 
-    // Intersectar solo con los objetos de cometas
     const intersects = this.raycaster.intersectObjects(cometObjects, true);
 
     if (intersects.length > 0) {
-      // Encontrar el cometa correspondiente al objeto intersectado
       const clickedObject = intersects[0].object;
       const clickedComet = this.comets.find(comet =>
         comet.object === clickedObject || this.isDescendant(clickedObject, comet.object)
       );
 
       if (clickedComet) {
-        this.showInfo = true;
-        console.log(`Objeto clickeado: ${clickedComet.name}`); // Log para debugging
-        alert(`Objeto: ${clickedComet.name}`);
+        this.selectedCometName = clickedComet.name;
+
+        const cometData = this.data.find(data => data.object === clickedComet.name);
+        if (cometData) {
+          this.selectedCometDetails.speed = cometData.e;
+          this.selectedCometDetails.period = cometData.p_yr;
+          this.selectedCometDetails.eccentricity = cometData.e;
+          this.selectedCometDetails.inclination = cometData.i_deg;
+        }
+
+        this.displayDialog = true;
       }
     } else {
-      console.log('No se detectó clic en ningún cometa'); // Log para debugging
+      console.log('No se detectó clic en ningún cometa');
     }
   }
 

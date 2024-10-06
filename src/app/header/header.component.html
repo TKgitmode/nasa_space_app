@@ -14,7 +14,7 @@
       <span class="slider-value">{{ resultsLimit }}</span>
   </div>
   </section>
-  
+
   <!-- Controles toggle en una fila (horizontal) -->
   <section class="control-section toggle-controls">
     <div class="toggle-group">
@@ -28,8 +28,8 @@
 
     <div class="toggle-group">
       <label>Orbits</label>
-      <p-toggleButton [(ngModel)]="showState"
-                      (onChange)="onShowStateChange($event)"
+      <p-toggleButton [(ngModel)]="showOrbitState"
+                      (onChange)="onShowOrbitStateChange($event)"
                       onLabel="Show"
                       offLabel="Hide">
       </p-toggleButton>
@@ -37,8 +37,8 @@
 
     <div class="toggle-group">
       <label>Names</label>
-      <p-toggleButton [(ngModel)]="show2State"
-                      (onChange)="onShowStateChange($event)"
+      <p-toggleButton [(ngModel)]="showNameState"
+                      (onChange)="onShowNameStateChange($event)"
                       onLabel="Show"
                       offLabel="Hide">
       </p-toggleButton>
@@ -46,23 +46,4 @@
   </section>
 
   <p>*Objects are not in scale</p>
-
-
-  <div class="animation-control">
-    <label>Control de Órbita:</label>
-    <p-toggleButton [(ngModel)]="showOrbitState"
-                    (onChange)="onShowOrbitStateChange($event)"
-                    onLabel="Show"
-                    offLabel="Hide">
-    </p-toggleButton>
-  </div>
-  
-  <div class="animation-control">
-    <label>Control de Nombres:</label>
-    <p-toggleButton [(ngModel)]="showNameState"
-                    (onChange)="onShowNameStateChange($event)"
-                    onLabel="Show"
-                    offLabel="Hide">
-    </p-toggleButton>
-  </div>
 </div>
