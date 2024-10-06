@@ -13,13 +13,10 @@
 
   <div class="animation-control">
     <label>Control de animación:</label>
-    <p-selectButton [options]="animationOptions"
-                    [(ngModel)]="animationState"
-                    (ngModelChange)="onAnimationStateChange($event)">
-      <ng-template let-option pTemplate="item">
-        <i [class]="option.icon"></i>
-        {{ option.label }}
-      </ng-template>
-    </p-selectButton>
+    <p-toggleButton [(ngModel)]="animationState"
+                    (onChange)="onAnimationStateChange($event)"
+                    onLabel="Reanudar"
+                    offLabel="Pausar">
+    </p-toggleButton>
   </div>
 </div>

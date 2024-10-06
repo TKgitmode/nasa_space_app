@@ -72,7 +72,7 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setClearColor(0x87CEEB);
+    this.renderer.setClearColor(0x21021f);
     document.body.appendChild(this.renderer.domElement);
 
     const ambientLight = new THREE.AmbientLight(0x404040, 3);
@@ -180,7 +180,6 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
     });
   }
 
-
   animate(): void {
     this.animationFrameId = requestAnimationFrame(() => this.animate());
   
@@ -212,31 +211,31 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
 
   onClick(event: MouseEvent): void {  // Obtener el rectángulo del canvas
     const rect = this.renderer.domElement.getBoundingClientRect();
-  
+
     // Calcular las coordenadas del mouse relativas al canvas
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-  
+
     // Normalizar las coordenadas del mouse
     this.mouse.x = (x / rect.width) * 2 - 1;
     this.mouse.y = - (y / rect.height) * 2 + 1;
-  
+
     // Actualizar el raycaster
     this.raycaster.setFromCamera(this.mouse, this.camera);
-  
+
     // Crear un array con todos los objetos de cometas
     const cometObjects = this.comets.map(comet => comet.object);
-  
+
     // Intersectar solo con los objetos de cometas
     const intersects = this.raycaster.intersectObjects(cometObjects, true);
-  
+
     if (intersects.length > 0) {
       // Encontrar el cometa correspondiente al objeto intersectado
       const clickedObject = intersects[0].object;
-      const clickedComet = this.comets.find(comet => 
+      const clickedComet = this.comets.find(comet =>
         comet.object === clickedObject || this.isDescendant(clickedObject, comet.object)
       );
-  
+
       if (clickedComet) {
         this.showInfo = true;
         console.log(`Objeto clickeado: ${clickedComet.name}`); // Log para debugging
