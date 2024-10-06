@@ -211,7 +211,7 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
     const period = parseFloat(cometData.p_yr);
 
     const curve = new THREE.EllipseCurve(
-        0, 0, // Centro
+        0, 0,
         a, a * Math.sqrt(1 - e * e),
         0, 2 * Math.PI,
         false, 0
@@ -303,11 +303,9 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
 
         comet.object.rotation.y += 0.01 * this.animationSpeed;
 
-        // Update the position of the name label
-        const labelOffset = new THREE.Vector3(0.01, 0, 0.5); // Offset to position label next to the comet
+        const labelOffset = new THREE.Vector3(0.01, 0, 0.5);
         comet.nameLabel.position.copy(comet.object.position).add(labelOffset);
 
-        // Make the label face the camera
         comet.nameLabel.lookAt(this.camera.position);
     });
 

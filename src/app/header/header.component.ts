@@ -11,9 +11,9 @@ export class HeaderComponent {
   @Output() showNameStateChange: EventEmitter<string> = new EventEmitter<string>();
 
   resultsLimit: number = 5;
-  animationState: boolean = true; // true representa 'play', false representa 'pause'
-  showOrbitState: boolean = true; // true representa 'play', false representa 'pause'
-  showNameState: boolean = true; // true representa 'play', false representa 'pause'
+  animationState: boolean = true;
+  showOrbitState: boolean = true;
+  showNameState: boolean = true;
 
   onResultsLimitChange(event: any): void {
     this.resultsLimitChange.emit(this.resultsLimit);
@@ -23,7 +23,7 @@ export class HeaderComponent {
     const state = event.checked ? 'play' : 'pause';
     this.animationStateChange.emit(state);
   }
-  
+
   onShowOrbitStateChange(event: any): void {
     const state = event.checked ? 'show' : 'hide';
     this.showOrbitStateChange.emit(state);
