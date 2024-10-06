@@ -6,4 +6,5 @@ export interface Comet {
   curve: THREE.EllipseCurve;
   period: number;
   name: string;
+  initialT: number;  // Nueva propiedad
 }
