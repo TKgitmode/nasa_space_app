@@ -179,10 +179,16 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
   }
 
 
-  onClick(event: MouseEvent): void {
+  onClick(event: MouseEvent): void {  // Obtener el rectángulo del canvas
+    const rect = this.renderer.domElement.getBoundingClientRect();
+  
+    // Calcular las coordenadas del mouse relativas al canvas
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+  
     // Normalizar las coordenadas del mouse
-    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+    this.mouse.x = (x / rect.width) * 2 - 1;
+    this.mouse.y = - (y / rect.height) * 2 + 1;
   
     // Actualizar el raycaster
     this.raycaster.setFromCamera(this.mouse, this.camera);
@@ -202,7 +208,6 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
   
       if (clickedComet) {
         this.showInfo = true;
-        this.info = `Objeto: ${clickedComet.name}`;
         console.log(`Objeto clickeado: ${clickedComet.name}`); // Log para debugging
         alert(`Objeto: ${clickedComet.name}`);
       }
