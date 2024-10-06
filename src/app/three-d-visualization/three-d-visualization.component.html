@@ -1,22 +1,22 @@
-<p-dialog header="Información del Cometa" [(visible)]="displayDialog" [modal]="true" [closable]="false">
+<p-dialog header="Object Information" [(visible)]="displayDialog" [modal]="true" [closable]="false">
   <div class="info-row">
-    <strong>Nombre del objeto:</strong>
+    <strong>Object name:</strong>
     <p>{{ selectedCometName }}</p>
   </div>
   <div class="info-row">
-    <strong>Velocidad de traslación:</strong>
+    <strong>Traslation speed:</strong>
     <p>{{ selectedCometDetails.speed }} km/h</p>
   </div>
   <div class="info-row">
-    <strong>Periodo orbital:</strong>
+    <strong>Orbit period:</strong>
     <p>{{ selectedCometDetails.period }} años</p>
   </div>
   <div class="info-row">
-    <strong>Excentricidad:</strong>
+    <strong>Excentricity:</strong>
     <p>{{ selectedCometDetails.eccentricity }}</p>
   </div>
   <div class="info-row">
-    <strong>Inclinación:</strong>
+    <strong>Inclination:</strong>
     <p>{{ selectedCometDetails.inclination }}º</p>
   </div>
   <p-footer>

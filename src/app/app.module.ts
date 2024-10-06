@@ -7,6 +7,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { BadgeModule } from 'primeng/badge';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -31,6 +32,7 @@ import { ThreeDVisualizationComponent } from './three-d-visualization/three-d-vi
     ToggleButtonModule,
     DialogModule,
     ButtonModule,
+    BadgeModule,
     FormsModule,
     BrowserAnimationsModule
   ],

@@ -1,7 +1,7 @@
 <div class="header">
-  <h2>Controles de Resultados</h2>
+  <h2>Controls</h2>
   <div class="slider-container">
-    <label for="results-slider">Resultados a mostrar:</label>
+    <label for="results-slider">Total objects:</label>
     <p-slider [(ngModel)]="resultsLimit"
               (ngModelChange)="onResultsLimitChange($event)"
               [min]="1"
@@ -12,7 +12,7 @@
   </div>
 
   <div class="animation-control">
-    <label>Control de animación:</label>
+    <label>Animation:</label>
     <p-toggleButton [(ngModel)]="animationState"
                     (onChange)="onAnimationStateChange($event)"
                     onLabel="Play"
@@ -21,16 +21,16 @@
   </div>
 
   <div class="animation-control">
-    <label>Control de Órbita:</label>
+    <label>Show orbit:</label>
     <p-toggleButton [(ngModel)]="showState"
                     (onChange)="onShowStateChange($event)"
                     onLabel="Show"
                     offLabel="Hide">
     </p-toggleButton>
   </div>
-  
+
   <div class="animation-control">
-    <label>Control de Nombres:</label>
+    <label>Show names:</label>
     <p-toggleButton [(ngModel)]="show2State"
                     (onChange)="onShowStateChange($event)"
                     onLabel="Show"

@@ -13,9 +13,9 @@ export class HeaderComponent {
 
 
   resultsLimit: number = 5;
-  animationState: boolean = true; // true representa 'play', false representa 'pause'
-  showState: boolean = true; // true representa 'play', false representa 'pause'
-  show2State: boolean = true; // true representa 'play', false representa 'pause'
+  animationState: boolean = true;
+  showState: boolean = true;
+  show2State: boolean = true;
 
   onResultsLimitChange(event: any): void {
     this.resultsLimitChange.emit(this.resultsLimit);
@@ -25,7 +25,7 @@ export class HeaderComponent {
     const state = event.checked ? 'play' : 'pause';
     this.animationStateChange.emit(state);
   }
-  
+
   onShowStateChange(event: any): void {
     const state = event.checked ? 'show' : 'hide';
     this.animationStateChange.emit(state);
