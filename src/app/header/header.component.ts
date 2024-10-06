@@ -3,25 +3,21 @@ import { Component, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
   @Output() resultsLimitChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() animationStateChange: EventEmitter<string> = new EventEmitter<string>();
 
   resultsLimit: number = 5;
-  animationState: string = 'play';
-
-  animationOptions: any[] = [
-    { label: 'Pausar', value: 'pause', icon: 'pi pi-pause' },
-    { label: 'Reanudar', value: 'play', icon: 'pi pi-play' }
-  ];
+  animationState: boolean = true; // true representa 'play', false representa 'pause'
 
   onResultsLimitChange(event: any): void {
     this.resultsLimitChange.emit(this.resultsLimit);
   }
 
-  onAnimationStateChange(state: string): void {
+  onAnimationStateChange(event: any): void {
+    const state = event.checked ? 'play' : 'pause';
     this.animationStateChange.emit(state);
   }
 }

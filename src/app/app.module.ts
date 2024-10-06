@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientMo
 import { FormsModule } from '@angular/forms';
 import { SliderModule } from 'primeng/slider';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 
 import { AppComponent } from './app.component';
 
@@ -24,6 +25,7 @@ import { ThreeDVisualizationComponent } from './three-d-visualization/three-d-vi
     HttpClientModule,
     SliderModule,
     SelectButtonModule,
+    ToggleButtonModule,
     FormsModule
 
   ],
