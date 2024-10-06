@@ -13,6 +13,7 @@ import { NasaObject } from '../interfaces/NasaObject.interface';
 })
 export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
   @Input() data: NasaObject[] = [];
+  @Input() animationSpeed: number = 1;
 
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
@@ -68,7 +69,7 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
     const loader = new GLTFLoader();
     loader.load('assets/earth.glb', (gltf) => {
       this.earth = gltf.scene;
-      this.earth.scale.set(0.1, 0.1, 0.1);
+      this.earth.scale.set(0.05, 0.05, 0.05);
       this.scene.add(this.earth);
     }, undefined, (error) => {
       console.error(error);
@@ -81,15 +82,22 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
 
   loadAsteroidModel(): void {
     const loader = new GLTFLoader();
-    loader.load('assets/asteroid.glb', (gltf) => {
+
+    // Definir una lista con los nombres de archivos GLB
+    const asteroidFiles = ['assets/asteroid1.glb', 'assets/asteroid2.glb', 'assets/asteroid3.glb', 'assets/asteroid4.glb'];
+
+    // Seleccionar un archivo aleatorio
+    const randomAsteroidFile = asteroidFiles[Math.floor(Math.random() * asteroidFiles.length)];
+
+    // Cargar el archivo GLB seleccionado aleatoriamente
+    loader.load(randomAsteroidFile, (gltf) => {
       this.asteroidModel = gltf.scene;
-      this.asteroidModel.scale.set(0.5, 0.5, 0.5);
-      this.updateComets();
+      this.asteroidModel.scale.set(1, 1, 1);
+      this.updateComets(); // Actualizar los cometas con el nuevo modelo
     }, undefined, (error) => {
       console.error('Error loading asteroid model:', error);
     });
   }
-
   updateComets(): void {
     // Eliminar cometas existentes
     this.comets.forEach(comet => {
@@ -144,20 +152,32 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
     this.animationFrameId = requestAnimationFrame(() => this.animate());
 
     if (this.earth) {
-      this.earth.rotation.y += 0.001;
+      // Acelerar la rotación de la tierra con animationSpeed
+      this.earth.rotation.y += 0.001 * this.animationSpeed;
     }
 
-    const time = Date.now() * 0.00001;
+    // Calcular el tiempo con la velocidad de animación aplicada
+    const time = Date.now() * 0.00001 * this.animationSpeed;
+
     this.comets.forEach((comet) => {
+      // Modificar el parámetro 't' usando la variable de velocidad
       const t = (time / comet.period) % 1;
+
+      // Obtener la nueva posición del cometa a lo largo de la curva
       const position = comet.curve.getPoint(t);
+
+      // Aplicar la nueva posición
       comet.object.position.set(position.x, position.y, 0);
       comet.object.position.applyEuler(comet.orbit.rotation);
-      comet.object.rotation.y += 0.01;
+
+      // Ajustar la rotación del cometa con base en la velocidad de animación
+      comet.object.rotation.y += 0.01 * this.animationSpeed;
     });
 
+    // Renderizar la escena con las nuevas posiciones
     this.renderer.render(this.scene, this.camera);
   }
+
 
   onClick(event: MouseEvent): void {
     this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;

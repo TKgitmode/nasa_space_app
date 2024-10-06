@@ -7,9 +7,15 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class HeaderComponent {
   @Output() resultsLimitChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() animationSpeedChange: EventEmitter<number> = new EventEmitter<number>();
   resultsLimit: number = 5;
+  animationSpeed: number = 1;
 
-  onSliderChange(event: any): void {
+  onResultsLimitChange(event: any): void {
     this.resultsLimitChange.emit(this.resultsLimit);
+  }
+
+  onAnimationSpeedChange(event: any): void {
+    this.animationSpeedChange.emit(this.animationSpeed);
   }
 }

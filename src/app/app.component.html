@@ -1,2 +1,2 @@
-<app-header (resultsLimitChange)="onResultsLimitChange($event)"></app-header>
-<app-three-d-visualization [data]="data"></app-three-d-visualization>
+<app-header (resultsLimitChange)="onResultsLimitChange($event)" (animationSpeedChange)="onAnimationSpeedChange($event)"></app-header>
+<app-three-d-visualization [data]="data" [animationSpeed]="animationSpeed"></app-three-d-visualization>

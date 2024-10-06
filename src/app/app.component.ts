@@ -9,18 +9,19 @@ import { NasaService } from './nasa.service';
 
 export class AppComponent implements OnInit {
   data: any[] = [];
+  resultsLimit: number = 5;
+  animationSpeed: number = 1;
 
   constructor(private nasaService: NasaService) { }
 
   ngOnInit(): void {
-    this.loadData(5); // Carga inicial con 5 resultados
+    this.loadData();
   }
 
-  loadData(limit: number): void {
-    this.nasaService.getData(limit).subscribe(
+  loadData(): void {
+    this.nasaService.getData(this.resultsLimit).subscribe(
       (response) => {
         this.data = response;
-        console.log(this.data);
       },
       (error) => {
         console.error('Error al obtener datos:', error);
@@ -29,6 +30,11 @@ export class AppComponent implements OnInit {
   }
 
   onResultsLimitChange(newLimit: number): void {
-    this.loadData(newLimit);
+    this.resultsLimit = newLimit;
+    this.loadData();
+  }
+
+  onAnimationSpeedChange(newSpeed: number): void {
+    this.animationSpeed = newSpeed;
   }
 }
