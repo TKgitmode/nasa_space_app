@@ -1,40 +1,51 @@
 <div class="header">
-  <h2>Controls</h2>
-  <div class="slider-container">
-    <label for="results-slider">Total objects:</label>
-    <p-slider [(ngModel)]="resultsLimit"
-              (ngModelChange)="onResultsLimitChange($event)"
-              [min]="1"
-              [max]="160"
-              [step]="1"
-              id="results-slider"></p-slider>
-    <span>{{ resultsLimit }}</span>
-  </div>
+  <h2>Near-Earth Objects</h2>
 
-  <div class="animation-control">
-    <label>Animation:</label>
-    <p-toggleButton [(ngModel)]="animationState"
-                    (onChange)="onAnimationStateChange($event)"
-                    onLabel="Play"
-                    offLabel="Pause">
-    </p-toggleButton>
-  </div>
+  <!-- Slider de resultados -->
+  <section class="control-section slider-container">
+    <label for="results-slider">Objects</label>
+    <div class="slider-wrapper">
+      <p-slider [(ngModel)]="resultsLimit"
+                (ngModelChange)="onResultsLimitChange($event)"
+                [min]="1"
+                [max]="160"
+                [step]="1"
+                id="results-slider"></p-slider>
+      <span class="slider-value">{{ resultsLimit }}</span>
+    </div>
+  </section>
 
-  <div class="animation-control">
-    <label>Show orbit:</label>
-    <p-toggleButton [(ngModel)]="showState"
-                    (onChange)="onShowStateChange($event)"
-                    onLabel="Show"
-                    offLabel="Hide">
-    </p-toggleButton>
-  </div>
+  <!-- Controles toggle en una fila (horizontal) -->
+  <section class="control-section toggle-controls">
+    <div class="toggle-group">
+      <label>Animation</label>
+      <p-toggleButton [(ngModel)]="animationState"
+                      (onChange)="onAnimationStateChange($event)"
+                      onLabel="Play"
+                      offLabel="Pause">
+      </p-toggleButton>
+    </div>
 
-  <div class="animation-control">
-    <label>Show names:</label>
-    <p-toggleButton [(ngModel)]="show2State"
-                    (onChange)="onShowStateChange($event)"
-                    onLabel="Show"
-                    offLabel="Hide">
-    </p-toggleButton>
-  </div>
+    <div class="toggle-group">
+      <label>Orbits</label>
+      <p-toggleButton [(ngModel)]="showState"
+                      (onChange)="onShowStateChange($event)"
+                      onLabel="Show"
+                      offLabel="Hide">
+      </p-toggleButton>
+    </div>
+
+    <div class="toggle-group">
+      <label>Names</label>
+      <p-toggleButton [(ngModel)]="show2State"
+                      (onChange)="onShowStateChange($event)"
+                      onLabel="Show"
+                      offLabel="Hide">
+      </p-toggleButton>
+    </div>
+  </section>
+
+  <p>*Objects are not in scale</p>
+
+
 </div>
