@@ -1,10 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { SliderModule } from 'primeng/slider';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 
@@ -12,7 +16,6 @@ import { NasaService } from './nasa.service';
 import { HeaderComponent } from './header/header.component'
 
 import { ThreeDVisualizationComponent } from './three-d-visualization/three-d-visualization.component';
-
 
 @NgModule({
   declarations: [
@@ -26,8 +29,10 @@ import { ThreeDVisualizationComponent } from './three-d-visualization/three-d-vi
     SliderModule,
     SelectButtonModule,
     ToggleButtonModule,
-    FormsModule
-
+    DialogModule,
+    ButtonModule,
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [NasaService],
   bootstrap: [AppComponent]

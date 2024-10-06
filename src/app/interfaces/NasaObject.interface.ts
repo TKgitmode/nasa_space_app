@@ -5,4 +5,5 @@ export interface NasaObject {
   i_deg: string;
   node_deg: string;
   p_yr: string;
+  epoch_tdb: string;
 }
