@@ -62,7 +62,6 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
 
   updateAnimationSpeed(): void {
     this.animationSpeed = this.animationStatus === 'play' ? 1 : 0;
-    // Ajustar `lastTime` para el cálculo correcto del tiempo pausado
     this.lastTime = Date.now();
   }
 
@@ -100,13 +99,10 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
   loadAsteroidModel(): void {
     const loader = new GLTFLoader();
 
-    // Definir una lista con los nombres de archivos GLB
     const asteroidFiles = ['assets/asteroid1.glb', 'assets/asteroid2.glb', 'assets/asteroid3.glb', 'assets/asteroid4.glb'];
 
-    // Seleccionar un archivo aleatorio
     const randomAsteroidFile = asteroidFiles[Math.floor(Math.random() * asteroidFiles.length)];
 
-    // Cargar el archivo GLB seleccionado aleatoriamente
     loader.load(randomAsteroidFile, (gltf) => {
       this.asteroidModel = gltf.scene;
       this.asteroidModel.scale.set(1, 1, 1);
@@ -117,14 +113,12 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
   }
 
   updateComets(): void {
-    // Eliminar cometas existentes
     this.comets.forEach(comet => {
       this.scene.remove(comet.object);
       this.scene.remove(comet.orbit);
     });
     this.comets = [];
 
-    // Crear nuevos cometas basados en los datos
     this.data.forEach((cometData, index) => this.createComet(cometData, index));
   }
 
@@ -155,10 +149,13 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
 
     // Crear el modelo 3D del cometa clonando el asteroide cargado
     const cometObject = this.asteroidModel.clone();
-    cometObject.scale.multiplyScalar(0.05 + Math.random() * 0.05);
+    cometObject.scale.multiplyScalar(0.01 + Math.random() * 0.05);
 
     // Posición inicial aleatoria a lo largo de la curva
-    const initialT = Math.random();
+    const totalComets = this.data.length;
+    const basePosition = index / totalComets;
+    const randomOffset = Math.random();
+    const initialT = (basePosition + randomOffset) % 1;
     const position = curve.getPoint(initialT);
     cometObject.position.set(position.x, position.y, 0);
 
@@ -178,44 +175,37 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
       orbit: orbit,
       curve: curve,
       period: period,
-      name: cometData.object
+      name: cometData.object,
+      initialT: initialT  // Guardar la posición inicial para referencia futura
     });
   }
 
 
   animate(): void {
     this.animationFrameId = requestAnimationFrame(() => this.animate());
-
+  
     const currentTime = Date.now();
-
-    // Actualizar el tiempo solo si la animación está en estado de "play"
+  
     if (this.animationStatus === 'play') {
-      this.elapsedTime += (currentTime - this.lastTime) * 0.00001; // Incrementar el tiempo acumulado
+      this.elapsedTime += (currentTime - this.lastTime) * 0.00001;
     }
-
-    this.lastTime = currentTime; // Actualizar `lastTime` a cada frame
-
+  
+    this.lastTime = currentTime;
+  
     if (this.earth) {
-      // Acelerar la rotación de la tierra con animationSpeed
       this.earth.rotation.y += 0.001 * this.animationSpeed;
     }
-
+  
     this.comets.forEach((comet) => {
-      // Usar `elapsedTime` en lugar de `Date.now()` para el cálculo del tiempo de traslación
-      const t = (this.elapsedTime / comet.period) % 1;
-
-      // Obtener la nueva posición del cometa a lo largo de la curva
+      const t = (this.elapsedTime / comet.period + comet.initialT) % 1;
       const position = comet.curve.getPoint(t);
-
-      // Aplicar la nueva posición
+  
       comet.object.position.set(position.x, position.y, 0);
       comet.object.position.applyEuler(comet.orbit.rotation);
-
-      // Ajustar la rotación del cometa con base en la velocidad de animación
+  
       comet.object.rotation.y += 0.01 * this.animationSpeed;
     });
-
-    // Renderizar la escena con las nuevas posiciones
+  
     this.renderer.render(this.scene, this.camera);
   }
 
