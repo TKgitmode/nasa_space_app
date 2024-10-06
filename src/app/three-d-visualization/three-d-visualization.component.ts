@@ -219,23 +219,40 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
   }
 
 
-  onClick(event: MouseEvent): void {
-    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+  onClick(event: MouseEvent): void {  // Obtener el rectángulo del canvas
+    const rect = this.renderer.domElement.getBoundingClientRect();
+  
+    // Calcular las coordenadas del mouse relativas al canvas
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+  
+    // Normalizar las coordenadas del mouse
+    this.mouse.x = (x / rect.width) * 2 - 1;
+    this.mouse.y = - (y / rect.height) * 2 + 1;
+  
+    // Actualizar el raycaster
     this.raycaster.setFromCamera(this.mouse, this.camera);
-
-    const intersects = this.raycaster.intersectObjects(this.scene.children, true);
-
+  
+    // Crear un array con todos los objetos de cometas
+    const cometObjects = this.comets.map(comet => comet.object);
+  
+    // Intersectar solo con los objetos de cometas
+    const intersects = this.raycaster.intersectObjects(cometObjects, true);
+  
     if (intersects.length > 0) {
+      // Encontrar el cometa correspondiente al objeto intersectado
       const clickedObject = intersects[0].object;
-      const cometIndex = this.comets.findIndex(comet =>
+      const clickedComet = this.comets.find(comet => 
         comet.object === clickedObject || this.isDescendant(clickedObject, comet.object)
       );
-
-      if (cometIndex !== -1) {
+  
+      if (clickedComet) {
         this.showInfo = true;
-        this.info = `Objeto: ${this.comets[cometIndex].name}`;
+        console.log(`Objeto clickeado: ${clickedComet.name}`); // Log para debugging
+        alert(`Objeto: ${clickedComet.name}`);
       }
+    } else {
+      console.log('No se detectó clic en ningún cometa'); // Log para debugging
     }
   }
 
