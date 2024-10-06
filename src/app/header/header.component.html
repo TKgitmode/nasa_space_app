@@ -22,8 +22,8 @@
 
   <div class="animation-control">
     <label>Control de Órbita:</label>
-    <p-toggleButton [(ngModel)]="showState"
-                    (onChange)="onShowStateChange($event)"
+    <p-toggleButton [(ngModel)]="showOrbitState"
+                    (onChange)="onShowOrbitStateChange($event)"
                     onLabel="Show"
                     offLabel="Hide">
     </p-toggleButton>
@@ -31,8 +31,8 @@
   
   <div class="animation-control">
     <label>Control de Nombres:</label>
-    <p-toggleButton [(ngModel)]="show2State"
-                    (onChange)="onShowStateChange($event)"
+    <p-toggleButton [(ngModel)]="showNameState"
+                    (onChange)="onShowNameStateChange($event)"
                     onLabel="Show"
                     offLabel="Hide">
     </p-toggleButton>

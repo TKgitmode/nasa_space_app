@@ -1,2 +1,8 @@
-<app-header (resultsLimitChange)="onResultsLimitChange($event)" (animationStateChange)="onAnimationStateChange($event)"></app-header>
-<app-three-d-visualization [data]="data" [animationStatus]="animationState"></app-three-d-visualization>
+<app-header (resultsLimitChange)="onResultsLimitChange($event)" 
+            (animationStateChange)="onAnimationStateChange($event)"
+            (showOrbitStateChange)="onShowOrbitStateChange($event)"
+            (showNameStateChange)="onShowNameStateChange($event)"            
+            ></app-header>
+<app-three-d-visualization [data]="data" [animationStatus]="animationState"
+                                         [orbitStatus]="orbitState"
+                                         [nameStatus]="nameState" ></app-three-d-visualization>

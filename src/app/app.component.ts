@@ -11,6 +11,8 @@ export class AppComponent implements OnInit {
   data: any[] = [];
   resultsLimit: number = 5;
   animationState: string = 'play';
+  orbitState: string = 'show';
+  nameState: string = 'show';
 
   constructor(private nasaService: NasaService) { }
 
@@ -36,5 +38,11 @@ export class AppComponent implements OnInit {
 
   onAnimationStateChange(newState: string): void {
     this.animationState = newState;
+  }
+  onShowOrbitStateChange(newState: string): void {
+    this.orbitState = newState;
+  }
+  onShowNameStateChange(newState: string): void {
+    this.nameState = newState;
   }
 }

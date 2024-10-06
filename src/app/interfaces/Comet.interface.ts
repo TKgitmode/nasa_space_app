@@ -7,4 +7,4 @@ export interface Comet {
   period: number;
   name: string;
   initialT: number;  // Nueva propiedad
-}
+  nameLabel: THREE.Sprite;}
