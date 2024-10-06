@@ -22,6 +22,21 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
   private elapsedTime: number = 0;
   private lastTime: number = 0;
 
+  public displayDialog: boolean = false;
+  public selectedCometName: string = '';
+  public selectedCometDetails: {
+    speed: string;
+    period: string;
+    eccentricity: string;
+    inclination: string;
+  } = {
+    speed: '',
+    period: '',
+    eccentricity: '',
+    inclination: ''
+  };
+
+
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
