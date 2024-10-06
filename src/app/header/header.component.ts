@@ -10,7 +10,7 @@ export class HeaderComponent {
   @Output() animationStateChange: EventEmitter<string> = new EventEmitter<string>();
 
   resultsLimit: number = 5;
-  animationState: boolean = true; // true representa 'play', false representa 'pause'
+  animationState: boolean = true;
 
   onResultsLimitChange(event: any): void {
     this.resultsLimitChange.emit(this.resultsLimit);
