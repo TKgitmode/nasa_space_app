@@ -33,6 +33,7 @@ p-slider {
   flex-grow: 1;
   width: 100%;
   height: 6px;
+  padding-left: 10px;
 }
 
 .slider-value {
