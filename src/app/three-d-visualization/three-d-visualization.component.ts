@@ -73,6 +73,7 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setClearColor(0x87CEEB);
     document.body.appendChild(this.renderer.domElement);
 
     const ambientLight = new THREE.AmbientLight(0x404040, 3);
