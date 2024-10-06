@@ -160,7 +160,7 @@ export class ThreeDVisualizationComponent implements OnInit, OnDestroy {
     orbit.rotation.z = node;
 
     const cometObject = this.asteroidModel.clone();
-    cometObject.scale.multiplyScalar(0.01 + Math.random() * 0.01);
+    cometObject.scale.multiplyScalar(0.05 + Math.random() * 0.01);
 
     const totalComets = this.data.length;
     const basePosition = index / totalComets;
