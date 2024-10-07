@@ -44,13 +44,13 @@ Utiliza los controles para:
 
 
 Mostrar/ocultar objetos específicos
+
 Activar/desactivar visualización de órbitas
+
 Mostrar/ocultar nombres de objetos
 
 Haz clic en los objetos para obtener información detallada.
 
-📄 Licencia
-Distribuido bajo la Licencia MIT. Ver LICENSE para más información.
 
 👥 Equipo
 
