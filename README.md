@@ -35,6 +35,7 @@ npm install
 # Iniciar servidor de desarrollo
 ng serve
 Visita http://localhost:4200/ en tu navegador para ver la aplicación.
+
 🖥️ Uso
 
 Explora la visualización 3D de la Tierra y los NEOs.
