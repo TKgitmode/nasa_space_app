@@ -58,7 +58,7 @@ Emmanuel del Piero Salcedo Martinez
 
 Berly Esleider Vilca Argandoña
 
-Elias Cristian Vilca Quispe
+Elias Cristhian Vilca Quispe
 
 🙏 Agradecimientos
 
