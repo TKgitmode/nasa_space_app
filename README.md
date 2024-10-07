@@ -1,27 +1,75 @@
-# NasaWeb
+Near-Earth Objects Orrery
+Show Image
+Show Image
+🌍 Visión General
+Near-Earth Objects Orrery es una aplicación web 3D interactiva desarrollada para el NASA Space Apps Challenge 2024. Visualiza objetos cercanos a la Tierra (NEOs) y otros cuerpos celestes en órbita, proporcionando una herramienta educativa accesible para explorar nuestro entorno espacial cercano.
+Show Image
+🚀 Características
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.0.
+Visualización 3D de la Tierra y objetos en órbita
+Interfaz interactiva para explorar objetos espaciales
+Opciones de configuración para personalizar la visualización
+Información detallada sobre cada objeto al hacer clic
 
-## Development server
+🛠️ Tecnologías
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Frontend: Angular, TypeScript
+Visualización 3D: Three.js
+UI Components: PrimeNG
+Estilos: CSS
 
-## Code scaffolding
+🤖 Uso de IA
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Claude AI: Asistencia en desarrollo y generación de contenido
+Meshy AI: Generación de modelos 3D
 
-## Build
+🏗️ Instalación
+bashCopy# Clonar el repositorio
+git clone https://github.com/tu-usuario/near-earth-objects-orrery.git
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+# Navegar al directorio del proyecto
+cd near-earth-objects-orrery
 
-## Running unit tests
+# Instalar dependencias
+npm install
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# Iniciar servidor de desarrollo
+ng serve
+Visita http://localhost:4200/ en tu navegador para ver la aplicación.
+🖥️ Uso
 
-## Running end-to-end tests
+Explora la visualización 3D de la Tierra y los NEOs.
+Utiliza los controles para:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Mostrar/ocultar objetos específicos
+Activar/desactivar visualización de órbitas
+Mostrar/ocultar nombres de objetos
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Haz clic en los objetos para obtener información detallada.
+
+🤝 Contribución
+¡Contribuciones son bienvenidas! Por favor, sigue estos pasos:
+
+Fork el proyecto
+Crea tu Feature Branch (git checkout -b feature/AmazingFeature)
+Commit tus cambios (git commit -m 'Add some AmazingFeature')
+Push a la Branch (git push origin feature/AmazingFeature)
+Abre un Pull Request
+
+📄 Licencia
+Distribuido bajo la Licencia MIT. Ver LICENSE para más información.
+👥 Equipo
+
+Nombre del Miembro 1
+Nombre del Miembro 2
+Nombre del Miembro 3
+
+🙏 Agradecimientos
+
+NASA Open Data Portal
+Minor Planet Center
+Organización del NASA Space Apps Challenge
+
+
+Desarrollado con ❤️ para el NASA Space Apps Challenge 2024
