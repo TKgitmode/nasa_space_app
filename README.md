@@ -1,6 +1,7 @@
 Near-Earth Objects Orrery
 🌍 Visión General
 Near-Earth Objects Orrery es una aplicación web 3D interactiva desarrollada para el NASA Space Apps Challenge 2024. Visualiza objetos cercanos a la Tierra (NEOs) y otros cuerpos celestes en órbita, proporcionando una herramienta educativa accesible para explorar nuestro entorno espacial cercano.
+
 🚀 Características
 
 Visualización 3D de la Tierra y objetos en órbita
@@ -22,7 +23,7 @@ Meshy AI: Generación de modelos 3D
 
 🏗️ Instalación
 
-bashCopy# Clonar el repositorio
+Clonar el repositorio
 git clone https://github.com/tu-usuario/near-earth-objects-orrery.git
 
 # Navegar al directorio del proyecto
