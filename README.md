@@ -38,7 +38,10 @@ Visita http://localhost:4200/ en tu navegador para ver la aplicación.
 🖥️ Uso
 
 Explora la visualización 3D de la Tierra y los NEOs.
+
+
 Utiliza los controles para:
+
 
 Mostrar/ocultar objetos específicos
 Activar/desactivar visualización de órbitas
@@ -48,10 +51,13 @@ Haz clic en los objetos para obtener información detallada.
 
 📄 Licencia
 Distribuido bajo la Licencia MIT. Ver LICENSE para más información.
+
 👥 Equipo
 
 Emmanuel del Piero Salcedo Martinez
+
 Berly Esleider Vilca Argandoña
+
 Elias Cristian Vilca Quispe
 
 🙏 Agradecimientos
